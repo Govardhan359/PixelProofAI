@@ -1,69 +1,125 @@
-# PixelProof AI
+<div align="center">
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen.svg" alt="Project Status">
+  <img src="https://img.shields.io/badge/Python-3.x-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/Django-5.x-darkgreen.svg" alt="Django Version">
+  <img src="https://img.shields.io/badge/PyTorch-AI-orange.svg" alt="PyTorch">
+  <img src="https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg" alt="Tailwind CSS">
+  
+  <h1>🛡️ PixelProof AI</h1>
+  <p><b>Every Pixel Has a Story.</b></p>
+  <p>A powerful, privacy-first web application designed to confidently differentiate between genuine human-authored photographs and AI-generated images utilizing state-of-the-art vision transformers.</p>
+</div>
 
-Every Pixel Has a Story.
+<hr>
 
-PixelProof AI is a research-oriented web application designed to differentiate between genuine human-authored photographs and AI-generated images using PyTorch and Hugging Face Transformers.
+## 🚀 Overview
 
-## Features
-- **Local Machine Learning Inference**: Uses the `umm-maybe/AI-image-detector` pretrained model (Swin Transformer architecture) locally without exposing images to external APIs.
-- **Image Metadata Extraction**: Evaluates dimensions, EXIF data, and other contextual metadata (does not rely on missing metadata as proof of forgery).
-- **Responsive Web Interface**: Built with Django, HTML5, and Tailwind CSS.
-- **Reporting & Dashboarding**: Keeps local history of performed analyses including score breakdown and processing time. Option to download findings in JSON format.
-- **Research Evaluation Pipeline**: Independent scripts available for evaluating benchmark dataset sets, producing confusion matrices, F1-scores, and performance metrics.
+As generative AI continues to evolve, distinguishing reality from artificial creation is more critical than ever. **PixelProof AI** leverages cutting-edge deep learning techniques to analyze images and provide a comprehensive authenticity report. Built with robustness, privacy, and user experience in mind, all inference is processed entirely locally, ensuring that sensitive data never leaves your environment.
 
-## Setup Instructions (Windows 11 PowerShell)
+## ✨ Key Features
 
-1. **Clone or set up the repository:**
-   Ensure you are in the project folder `PixelProofAI`.
+- **🧠 Local Machine Learning Inference:** Utilizes the `umm-maybe/AI-image-detector` pretrained model (based on the Swin Transformer architecture) locally via PyTorch and Hugging Face Transformers. No external API dependencies.
+- **📊 Comprehensive PDF Reporting:** Generates user-friendly, downloadable PDF reports (powered by ReportLab) detailing the analysis breakdown, confidence scores, and processing metrics.
+- **🎨 Color-Coded Visual Feedback:** Intuitive, responsive web interface that provides immediate, color-coded visual feedback based on the AI's detection confidence percentages.
+- **🔍 Advanced History & Filtering:** Robust history dashboard allowing users to track previous analyses, with advanced filtering options by status and prediction outcomes.
+- **🔒 Privacy-First Architecture:** Complete offline processing capability. Uploaded media and analysis data remain strictly on the host machine.
+- **⚙️ Resilient File Handling:** Engineered with robust file management systems to prevent locking issues and ensure high reliability during concurrent uploads and analysis.
+- **📈 Research Evaluation Pipeline:** Includes standalone modules for evaluating benchmark datasets, generating confusion matrices, computing F1-scores, and assessing model performance.
 
-2. **Create a virtual environment:**
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\activate
-   ```
+## 🛠️ Tech Stack
 
-3. **Install dependencies:**
-   ```powershell
-   pip install -r requirements.txt
-   npm install
-   ```
-   *(Note: The first run downloads torch and transformers checkpoints locally, requiring several gigabytes of space.)*
+### Deep Learning & AI
+- **[PyTorch](https://pytorch.org/)** - Core deep learning framework for tensor computation.
+- **[Hugging Face Transformers](https://huggingface.co/)** - For loading and running state-of-the-art vision transformers.
+- **[scikit-learn](https://scikit-learn.org/)** - For machine learning evaluation metrics and dataset processing.
 
-4. **Environment Variables:**
-   Copy `.env.example` to `.env` and configure your local settings.
+### Backend Development
+- **[Python](https://www.python.org/)** - Primary programming language.
+- **[Django](https://www.djangoproject.com/)** - High-level Python Web framework encouraging rapid development and clean design.
+- **[SQLite](https://www.sqlite.org/)** - Lightweight, disk-based database for managing application state and history.
+- **[ReportLab](https://pypi.org/project/reportlab/)** - For dynamic, robust PDF document generation.
 
-5. **Apply Database Migrations:**
-   ```powershell
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+### Frontend Development
+- **[Tailwind CSS (v4)](https://tailwindcss.com/)** - Utility-first CSS framework for rapid UI development and styling.
+- **HTML5 & Vanilla JavaScript** - For structuring the interface and handling dynamic UI interactions.
 
-6. **Build Frontend Assets (Tailwind CSS):**
-   ```powershell
-   npm run build:css
-   ```
+### Testing & QA
+- **[pytest & pytest-django](https://pytest.org/)** - For comprehensive automated unit and integration testing.
 
-7. **Run the Server:**
-   ```powershell
-   python manage.py runserver
-   ```
-   Visit `http://127.0.0.1:8000`
+## ⚙️ Installation & Setup (Windows / PowerShell)
 
-## Automated Tests
-To run the automated tests using `pytest`:
+Ensure you have Python 3.x and Node.js installed on your system.
+
+**1. Clone the repository and navigate into the project directory:**
+```powershell
+# Set your working directory to the project folder
+cd PixelProofAI
+```
+
+**2. Initialize and activate a virtual environment:**
+```powershell
+python -m venv venv
+.\venv\Scripts\activate
+```
+
+**3. Install Python dependencies:**
+*(Note: Initial setup requires downloading PyTorch and Hugging Face model checkpoints, which may take some time depending on your connection.)*
+```powershell
+pip install -r requirements.txt
+```
+
+**4. Install Node dependencies (For Tailwind CSS):**
+```powershell
+npm install
+```
+
+**5. Configure Environment Variables:**
+Copy the template `.env` file and adjust any necessary configurations.
+```powershell
+cp .env.example .env
+```
+
+**6. Apply database migrations:**
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+```
+
+**7. Build Frontend CSS Assets:**
+```powershell
+npm run build:css
+```
+
+**8. Run the Development Server:**
+```powershell
+python manage.py runserver
+```
+
+> **Note:** Access the application locally at `http://127.0.0.1:8000`. On the very first run, the system will cache the Hugging Face model checkpoints, which may cause a slight initial delay.
+
+## 🧪 Testing
+
+To run the automated robust test suite via `pytest`:
 ```powershell
 .\venv\Scripts\activate
 pytest
 ```
 
-## Research Evaluation
-For evaluation, prepare a CSV `manifest.csv` containing columns `image_path` (relative to the CSV) and `label` (human or artificial).
+## 📊 Research & Evaluation Pipeline
+
+For dataset evaluation (e.g., benchmarking performance on a holdout set), prepare a `manifest.csv` containing two columns:
+- `image_path` (relative to the CSV)
+- `label` (human or artificial)
+
+Run the standalone evaluation script:
 ```powershell
 python research/evaluate.py --manifest data/manifest.csv --output data/results.json
 ```
 
-## Security & Privacy Notice
-All uploads and inference processes remain localized to the host instance. Uploaded files do not leave the host machine. However, the system caches the model from Hugging Face on the very first start.
+## 🛡️ Security & Privacy Notice
 
-## License
-Provided for educational and research purposes only. Make sure to adhere to the model checkpoints' license agreements for real-world usage.
+PixelProof AI is built with privacy at its core. All file uploads, processing, and inferences are completely isolated to the host instance. No media is transmitted to external servers for validation. 
+
+## 📜 License
+
+Created for educational, portfolio, and research purposes. Please ensure compliance with the original `umm-maybe/AI-image-detector` model checkpoints' license agreements for any real-world edge deployment.

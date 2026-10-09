@@ -1,0 +1,10 @@
+Django
+torch
+torchvision
+transformers
+Pillow
+scikit-learn
+pytest
+pytest-django
+python-dotenv
+reportlab

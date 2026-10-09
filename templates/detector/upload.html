@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Analyze Image - PixelProof AI{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto py-12">
+    <div class="bg-surface p-8 rounded-xl border border-slate-700 shadow-xl">
+        <h2 class="text-2xl font-bold mb-6 text-white text-center">Analyze an Image</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-6" id="upload-form">
+            {% csrf_token %}
+            
+            <div class="flex flex-col items-center justify-center w-full">
+                <label for="id_image" class="flex flex-col items-center justify-center w-full h-64 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-800/50 hover:bg-slate-800 hover:border-primary transition-colors group relative overflow-hidden" id="drop-zone">
+                    <div id="upload-prompt" class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-10 h-10 mb-3 text-slate-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <p class="mb-2 text-sm text-slate-400"><span class="font-semibold text-slate-200">Click to upload</span> or drag and drop</p>
+                        <p class="text-xs text-slate-500">JPEG, PNG or WEBP (Max 10MB)</p>
+                    </div>
+                    
+                    <div id="preview-container" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 z-10 p-4">
+                        <img id="image-preview" class="max-h-40 max-w-full object-contain mb-2 rounded shadow-lg" src="" alt="Image Preview">
+                        <p id="file-name" class="text-sm text-slate-300 font-medium truncate max-w-[80%]"></p>
+                        <p class="text-xs text-primary mt-1">Click to change image</p>
+                    </div>
+                    
+                    <input id="id_image" name="image" type="file" class="hidden" accept="image/jpeg, image/png, image/webp" required />
+                </label>
+                {% if form.image.errors %}
+                <div class="mt-2 text-red-400 text-sm">
+                    {{ form.image.errors }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="bg-slate-900/50 p-4 border border-slate-700 rounded-lg text-sm text-slate-400">
+                <p class="font-semibold text-slate-300 mb-1">Privacy Notice:</p>
+                Analyses run entirely locally on this machine using PyTorch. No images or metadata are sent to external web APIs.
+            </div>
+            
+            <button type="submit" id="submit-btn" class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-primary/30 transition-all flex justify-center items-center">
+                <span>Run Model Inference</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const fileInput = document.getElementById("id_image");
+        const uploadPrompt = document.getElementById("upload-prompt");
+        const previewContainer = document.getElementById("preview-container");
+        const imagePreview = document.getElementById("image-preview");
+        const fileNameDisplay = document.getElementById("file-name");
+        const dropZone = document.getElementById("drop-zone");
+        const form = document.getElementById("upload-form");
+        const submitBtn = document.getElementById("submit-btn");
+
+        function handleFile(file) {
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    fileNameDisplay.textContent = file.name;
+                    uploadPrompt.classList.add("hidden");
+                    previewContainer.classList.remove("hidden");
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        fileInput.addEventListener("change", function() {
+            handleFile(this.files[0]);
+        });
+        
+        dropZone.addEventListener("dragover", function(e) {
+            e.preventDefault();
+            dropZone.classList.add("border-primary");
+        });
+        
+        dropZone.addEventListener("dragleave", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("border-primary");
+        });
+        
+        dropZone.addEventListener("drop", function(e) {
+            e.preventDefault();
+            dropZone.classList.remove("border-primary");
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+        
+        form.addEventListener("submit", function() {
+            // Update button state to show processing
+            if (fileInput.files.length > 0) {
+                submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Processing...</span>';
+                submitBtn.disabled = true;
+                submitBtn.classList.add("opacity-75", "cursor-not-allowed");
+            }
+        });
+    });
+</script>
+{% endblock %}

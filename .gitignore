@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+*.log
+.env
+static/dist/
+node_modules/
+eval_results.json
+
+pytest_output.txt

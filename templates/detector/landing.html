@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto text-center py-16">
+    <h1 class="text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+        Every Pixel Has a Story.
+    </h1>
+    <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+        PixelProof AI is an advanced forensic research tool designed to analyze images and classify them based on AI generation traces versus genuine photographs.
+    </p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-left">
+        <div class="bg-surface p-6 rounded-xl border border-slate-700 shadow-lg hover:border-primary transition-colors">
+            <h3 class="text-xl font-bold mb-3 text-primary">Local ML Inference</h3>
+            <p class="text-slate-400">Processing is entirely local using PyTorch and Hugging Face Transformers. No data is sent to external APIs.</p>
+        </div>
+        <div class="bg-surface p-6 rounded-xl border border-slate-700 shadow-lg hover:border-primary transition-colors">
+            <h3 class="text-xl font-bold mb-3 text-primary">Pretrained Vision</h3>
+            <p class="text-slate-400">Powered by a Swin Transformer tailored for image origin detection.</p>
+        </div>
+        <div class="bg-surface p-6 rounded-xl border border-slate-700 shadow-lg hover:border-primary transition-colors">
+            <h3 class="text-xl font-bold mb-3 text-primary">Supported Formats</h3>
+            <p class="text-slate-400">Upload JPEG, PNG or WEBP up to 10MB.</p>
+        </div>
+    </div>
+    
+    <div class="bg-red-900/30 border border-red-800 rounded-lg p-6 mb-10 text-left max-w-3xl mx-auto">
+        <h4 class="text-red-400 font-bold mb-2">Important Limitations</h4>
+        <p class="text-sm text-red-200">
+            This tool provides model predictions based on statistical patterns, not definitive forensic proof. 
+            Scores indicate similarity to training data classes. Always evaluate results in context.
+        </p>
+    </div>
+    
+    <a href="{% url 'detector:upload' %}" class="inline-block bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-primary/30 transition-all transform hover:scale-105">
+        Start Analysis
+    </a>
+</div>
+{% endblock %}
